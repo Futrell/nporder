@@ -9,7 +9,10 @@ cinque = read_csv("../data/cinque_merlo.csv") %>%
     mutate(first=ifelse(is.na(first), "NA", first),
            second=ifelse(is.na(second), "NA", second),
            third=ifelse(is.na(third), "NA", third))
-cysouw = read_csv("../data/cysouw.csv")
+cysouw = read_csv("../data/cysouw.csv") %>%
+    mutate(na_adjacency=!na_adjacency,
+           n_edge=!n_edge,
+           d_edge=!d_edge)
 
 d = frequency %>%
     inner_join(dryer) %>%
@@ -111,7 +114,12 @@ d_with_predictions %>%
 ggsave("../output/model_plots.pdf", width=7, height=5)
 
 hues = gg_color_hues(3)
- 
+
+chisq_discrepancy = function(observed, expected) {
+    (observed - expected)^2 / expected
+}
+
+
 d_with_predictions %>%
     mutate(order=factor(order, levels=reorder(order, -d$adjusted_frequency))) %>%
     select(order, adjusted_frequency, dryer_predicted, cinque_predicted, cysouw_predicted) %>%
@@ -133,5 +141,26 @@ d_with_predictions %>%
       scale_fill_manual(labels=c("Current work", "Cysouw", "Cinque"), values=hues)
 
 ggsave("../output/model_discrepancies.pdf", width=7, height=5)
-    
+
+d_with_predictions %>%
+    mutate(order=factor(order, levels=reorder(order, -d$adjusted_frequency))) %>%
+    select(order, adjusted_frequency, dryer_predicted, cinque_predicted, cysouw_predicted) %>%
+    mutate(dryer=chisq_discrepancy(adjusted_frequency, dryer_predicted), cysouw=chisq_discrepancy(adjusted_frequency, cysouw_predicted), cinque=chisq_discrepancy(adjusted_frequency, cinque_predicted)) %>%
+    select(-adjusted_frequency) %>%
+    gather(key, discrepancy, -order) %>%
+    mutate(key=factor(key, levels=c("dryer", "cysouw", "cinque")))  %>%
+    filter(!is.na(key)) %>%
+    ggplot(aes(x=1, y=discrepancy, fill=key)) +
+      geom_bar(stat="identity", position=position_dodge()) +
+      facet_wrap(~order) +
+      ylab("Chi-squared discrepancy from adjusted frequency") +
+      theme_bw() +
+      theme(axis.ticks.x=element_blank(),
+            axis.text.x=element_blank(),
+            axis.title.x=element_blank(),
+            legend.title=element_blank()) +
+      scale_fill_manual(labels=c("Current work", "Cysouw", "Cinque"), values=hues)
+
+ggsave("../output/model_discrepancies_chisq.pdf", width=7, height=5)
+
  
