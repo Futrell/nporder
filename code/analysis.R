@@ -14,12 +14,23 @@ cysouw = read_csv("../data/cysouw.csv") %>%
            n_edge=!n_edge,
            d_edge=!d_edge)
 
+correct_cinque_features = FALSE
+if(correct_cinque_features) {
+  cinque[10,"partial"] = "np"
+  cinque[19,"partial"] = "not"
+  cinque[19,"complete"] = "np"
+  cinque[24,"partial"] = "not" # this one is confusing but a careful read of Cinque suggests that he does not consider this case to involve partial movement
+}
+
 d = frequency %>%
     inner_join(dryer) %>%
     inner_join(cinque) %>%
     inner_join(cysouw) %>%
     mutate(rounded_adjusted_frequency=round(adjusted_frequency, 0))
 assert(nrow(d) == 24)
+
+
+
 
 dryer_model = glm(rounded_adjusted_frequency ~
                       icon1 +
