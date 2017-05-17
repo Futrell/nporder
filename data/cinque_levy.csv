@@ -1,0 +1,26 @@
+,,,,,Cinque letter,ViolatesLCA,whose-pic-move,np-move-no-pp,pic-of-who-move,partial-move,total-move,Notes
+1,Dem,Num,Adj,N,a,N,N,N,N,N,N,
+2,Dem,Adj,Num,N,m,Y,N,N,N,N,N,
+3,Num,Dem,Adj,N,,Y,N,N,N,N,N,
+4,Num,Adj,Dem,N,,Y,N,N,N,N,N,
+5,Adj,Dem,Num,N,,Y,N,N,N,N,N,
+6,Adj,Num,Dem,N,,Y,N,N,N,N,N,
+7,Dem,Num,N,Adj,b,N,Y,N,N,Y,N,
+8,Dem,Adj,N,Num,n,N,N,N,Y,Y,N,
+9,Num,Dem,N,Adj,,Y,N,N,N,N,N,
+10,Num,Adj,N,Dem,r,N,N,N,Y,Y,N,
+11,Adj,Dem,N,Num,,Y,N,N,N,N,N,
+12,Adj,Num,N,Dem,,Y,N,N,N,N,N,
+13,Dem,N,Adj,Num,o,N,Y,N,N,Y,N,
+14,Dem,N,Num,Adj,c,N,N,Y,N,Y,N,
+15,Num,N,Dem,Adj,,Y,N,N,N,N,N,
+16,Num,N,Adj,Dem,s,N,N,N,Y,Y,N,
+17,Adj,N,Dem,Num,k,N,N,Y,Y,Y,N,"Cinque's explanation here is unclear: ""raising of [N A] without pied-piping around both Num and Dem"" is invoked, but it is not clear why this counts as ""movement of NP without pied-piping"" (7biii) as an option.  Note that Cinque describes this as two marked options in his 6k, but really this surely must be 3 marked options because the movement is *partial* as he says explicitly in 7bv."
+18,Adj,N,Num,Dem,w,N,N,N,Y,Y,N,"Cinque's explanation does not seem consistent between this one and k: there, raising of [A N] around both Num and Dem counts as a marked option, but here, raising of [A N Num] around Dem does not count as a marked option.  I've put down his markedness descriptions into the columns, but I'm skeptical that this is viable.  Note also that though Cinque says specifically in 6w that there is one marked option, there must actually be two, as movement of NP is partial, not total, as he says explicitly in 7bv."
+19,N,Dem,Num,Adj,d,N,N,Y,N,N,Y,
+20,N,Dem,Adj,Num,p,N,Y,Y,N,N,Y,"Cinque's explanation here is murky.  I've encoded ""and then extraction of the sole NP around Dem"" as a movement of NP without pied piping (7biii), and this is total not partial movement since the NP winds up at the left edge"
+21,N,Num,Dem,Adj,,Y,N,N,N,N,N,
+22,N,Num,Adj,Dem,t,N,Y,Y,N,N,Y,
+23,N,Adj,Dem,Num,l,N,Y,Y,N,N,Y,
+24,N,Adj,Num,Dem,x,N,Y,N,N,N,Y,is there NP movement with no pied piping?
+,,,,,,∂,,,,,,
