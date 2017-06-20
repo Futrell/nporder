@@ -260,9 +260,9 @@ hues = gg_color_hues(4)
 
 d_with_predictions %>%
     mutate(order=factor(order, levels=reorder(order, -d$adjusted_frequency))) %>%
-    select(order, adjusted_frequency, dryer_predicted, cysouw_predicted, cinque2_all_predicted, cinque_predicted) %>%
+    select(order, adjusted_frequency, dryer_predicted, cysouw_predicted, cinque2_all_predicted) %>%
     gather(key, frequency, -order) %>%
-    mutate(key=factor(key, levels=c("adjusted_frequency", "dryer_predicted", "cysouw_predicted", "cinque2_all_predicted", "cinque_predicted"))) %>%
+    mutate(key=factor(key, levels=c("adjusted_frequency", "dryer_predicted", "cysouw_predicted", "cinque2_all_predicted"))) %>%
     mutate(real=key == "adjusted_frequency") %>%
     ggplot(aes(x=1, y=frequency, fill=key)) +
       geom_bar(stat="identity", position=position_dodge()) +
@@ -273,8 +273,7 @@ d_with_predictions %>%
             axis.title.x=element_blank(),
             legend.title=element_blank()) +
       #scale_alpha_discrete(range=c(.6, 1), guide=FALSE) +
-      scale_fill_manual(labels=c("Adjusted Frequency", "Current Prediction", "Cysouw Prediction", "Cinque Prediction (ours)", "Cinque Prediction (Merlo's)"),
-                        values=c("black", hues))
+      scale_fill_manual(labels=c("Adjusted Frequency", "Dryer Prediction", "Cysouw Prediction", "Cinque Prediction"), values=c("black", hues))
 
 ggsave("../output/model_plots.pdf", width=7, height=5)
 
@@ -283,7 +282,7 @@ signed_square = function (x) {
 }
 
 chisq_discrepancy = function(observed, expected) {
-    -signed_square(observed - expected) / expected
+    signed_square(observed - expected) / expected
 }
 
 
@@ -305,17 +304,17 @@ d_with_predictions %>%
             axis.text.x=element_blank(),
             axis.title.x=element_blank(),
             legend.title=element_blank()) +
-      scale_fill_manual(labels=c("Current work", "Cysouw", "Cinque"), values=hues)
+      scale_fill_manual(labels=c("Dryer", "Cysouw", "Cinque"), values=hues)
 
 ggsave("../output/model_discrepancies.pdf", width=7, height=5)
 
 d_with_predictions %>%
     mutate(order=factor(order, levels=reorder(order, -d$adjusted_frequency))) %>%
-    select(order, adjusted_frequency, dryer_predicted, cysouw_predicted, cinque2_all_predicted, cinque_predicted) %>%
-    mutate(dryer=chisq_discrepancy(adjusted_frequency, dryer_predicted), cysouw=chisq_discrepancy(adjusted_frequency, cysouw_predicted), cinque2=chisq_discrepancy(adjusted_frequency, cinque2_all_predicted), cinque3=chisq_discrepancy(adjusted_frequency, cinque_predicted)) %>%
+    select(order, adjusted_frequency, dryer_predicted, cysouw_predicted, cinque2_all_predicted) %>%
+    mutate(dryer=chisq_discrepancy(adjusted_frequency, dryer_predicted), cysouw=chisq_discrepancy(adjusted_frequency, cysouw_predicted), cinque2=chisq_discrepancy(adjusted_frequency, cinque2_all_predicted)) %>%
     select(-adjusted_frequency) %>%
     gather(key, discrepancy, -order) %>%
-    mutate(key=factor(key, levels=c("dryer", "cysouw", "cinque2","cinque3")))  %>%
+    mutate(key=factor(key, levels=c("dryer", "cysouw", "cinque2")))  %>%
     filter(!is.na(key)) %>%
     ggplot(aes(x=1, y=discrepancy, fill=key)) +
       geom_bar(stat="identity", position=position_dodge()) +
@@ -327,15 +326,15 @@ d_with_predictions %>%
             axis.text.x=element_blank(),
             axis.title.x=element_blank(),
             legend.title=element_blank()) +
-      scale_fill_manual(labels=c("Current work", "Cysouw", "Cinque (ours)", "Cinque (Merlo's)"), values=hues)
+      scale_fill_manual(labels=c("Current work", "Cysouw", "Cinque"), values=hues)
 
 ggsave("../output/model_discrepancies_chisq.pdf", width=7, height=5)
 
 d_with_predictions %>%
     mutate(order=factor(order, levels=reorder(order, -d$genera))) %>%
-    select(order, genera, dryer_predicted_genera, cysouw_predicted_genera, cinque2_all_predicted_genera, cinque_predicted_genera) %>%
+    select(order, genera, dryer_predicted_genera, cysouw_predicted_genera, cinque2_all_predicted_genera) %>%
     gather(key, frequency, -order) %>%
-    mutate(key=factor(key, levels=c("genera", "dryer_predicted_genera", "cysouw_predicted_genera", "cinque2_all_predicted_genera", "cinque_predicted_genera"))) %>%
+    mutate(key=factor(key, levels=c("genera", "dryer_predicted_genera", "cysouw_predicted_genera", "cinque2_all_predicted_genera"))) %>%
     mutate(real=key == "genera") %>%
     ggplot(aes(x=1, y=frequency, fill=key)) +
       geom_bar(stat="identity", position=position_dodge()) +
@@ -346,7 +345,7 @@ d_with_predictions %>%
             axis.title.x=element_blank(),
             legend.title=element_blank()) +
       #scale_alpha_discrete(range=c(.6, 1), guide=FALSE) +
-      scale_fill_manual(labels=c("Genera", "Current Prediction", "Cysouw Prediction", "Cinque Prediction (ours)", "Cinque Prediction (Merlo's)"),
+      scale_fill_manual(labels=c("Genera", "Current Prediction", "Cysouw Prediction", "Cinque Prediction"),
                         values=c("black", hues))
 
 ggsave("../output/model_plots_genera.pdf", width=7, height=5)
@@ -376,11 +375,11 @@ ggsave("../output/model_discrepancies_genera.pdf", width=7, height=5)
 
 d_with_predictions %>%
     mutate(order=factor(order, levels=order[reorder(order, -d$genera)])) %>%
-    select(order, genera, dryer_predicted_genera, cysouw_predicted_genera, cinque2_all_predicted_genera, cinque_predicted_genera) %>%
-    mutate(dryer=chisq_discrepancy(genera, dryer_predicted_genera), cysouw=chisq_discrepancy(genera, cysouw_predicted_genera), cinque2=chisq_discrepancy(genera, cinque2_all_predicted_genera), cinque3=chisq_discrepancy(genera, cinque_predicted_genera)) %>%
+    select(order, genera, dryer_predicted_genera, cysouw_predicted_genera, cinque2_all_predicted_genera) %>%
+    mutate(dryer=chisq_discrepancy(genera, dryer_predicted_genera), cysouw=chisq_discrepancy(genera, cysouw_predicted_genera), cinque2=chisq_discrepancy(genera, cinque2_all_predicted_genera)) %>%
     select(-genera) %>%
     gather(key, discrepancy, -order) %>%
-    mutate(key=factor(key, levels=c("dryer", "cysouw", "cinque2", "cinque3")))  %>%
+    mutate(key=factor(key, levels=c("dryer", "cysouw", "cinque2")))  %>%
     filter(!is.na(key)) %>%
     ggplot(aes(x=1, y=discrepancy, fill=key)) +
       geom_bar(stat="identity", position=position_dodge()) +
@@ -392,7 +391,7 @@ d_with_predictions %>%
             axis.text.x=element_blank(),
             axis.title.x=element_blank(),
             legend.title=element_blank()) +
-      scale_fill_manual(labels=c("Current work", "Cysouw", "Cinque (ours)", "Cinque (Merlo's)"), values=hues)
+      scale_fill_manual(labels=c("Current work", "Cysouw", "Cinque"), values=hues)
 
 ggsave("../output/model_discrepancies_chisq_genera.pdf", width=7, height=5)
 
@@ -444,3 +443,9 @@ regression_table_figure = function(model, depvar, filename) {
     print(str_c("../output/", filename))
 
 }
+
+regression_table_figure(dryer_model, "adjusted_frequency", "dryer_regression_af.pdf")
+regression_table_figure(cinque2_model_all, "adjusted_frequency", "cinque_regression_af.pdf")
+regression_table_figure(dryer_model_genera, "genera", "dryer_regression_genera.pdf")
+regression_table_figure(cinque2_model_all_genera, "genera", "cinque_regression_genera.pdf")
+
