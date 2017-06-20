@@ -14,7 +14,7 @@ ANnD,nD,Nn,AN,not,not,TRUE
 DnAN,An,NA,DN,whose-pp,not,FALSE
 DnNA,An,NA,DN,np,not,FALSE
 NnDA,An,DA,ND,not,not,TRUE
-NnAD,An,NA,DN,np,of-who-pp,FALSE
+NnAD,An,NA,DN,whose-pp,of-who-pp,FALSE
 AnDN,An,NA,DN,not,of-who-pp,FALSE
 AnND,An,NA,DN,of-who-pp,whose-pp,FALSE
 nDNA,An,NA,DN,np,not,FALSE
