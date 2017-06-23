@@ -126,7 +126,7 @@ featural models, orders are assigned scores based on features that
 have no intrinsic order.  For example, the centerpiece of the theory
 of \citet{cinque2005deriving} is the claim that the Merge order of
 D$>$N$>$A$>$n is universal, and that the Linear Correspondence Axiom
-(LCA) of Kayne (1994) \textbf{[TODO: put ref in bibfile]} holds, such
+(LCA) of \citet{kayne1994antisymmetry} holds, such
 that every word order must be generated from a base structure of the
 form seen in Figure~\ref{fig:cinque-base-order}, plus movement
 operations.  Orders that are not derivable from this base structure
@@ -146,10 +146,10 @@ under Cinque's theory, in principle.
 \end{figure}
 
 
-For example, suppose we think of the Cinque model in terms of features: then \texttt{ViolatesLCA} is a feature that can be $+$ or $-$, and some movement operation is reflected in a feature that can be $+$ or $-$.
-For an order that violates the LCA, we would give it value $+$ for \texttt{ViolatesLCA} and $-$ for the movement feature, but this is not a completely correct reflection of Cinque's derivational theory.
+For example, suppose we think of the Cinque model in terms of features: then \alternativeMergeOrder is a feature that can be $+$ or $-$, and some movement operation is reflected in a feature that can be $+$ or $-$.
+For an order that violates the specified merge order, we would give it value $+$ for \alternativeMergeOrder and $-$ for the movement feature, but this is not a completely correct reflection of Cinque's derivational theory.
 The reason is that under the generative process, if a word order
-violates the LCA, then the model never even decides whether to perform
+violates the required merge order, then the model never even decides whether to perform
 a movement operation or not: thus the value of the movement feature
 should not be $-$ or $+$, but undefined.  
 
@@ -158,10 +158,10 @@ In our methodology, we let the model decide on feature weights (markedness value
 As such, it is possible that our implementation of the Cinque model
 does not reflect its full intent. 
 
-The fact that our weights are derived through fits to the data and not through a priori considerations is especially noteworthy in the case of the feature \texttt{ViolatesLCA} in Cinque's system.
-In a literal reading of \citet{cinque2005deriving}, orders which violate the LCA should occur with probability 0, and thus the feature \texttt{ViolatesLCA} should be assigned infinitely negative weight.
+The fact that our weights are derived through fits to the data and not through a priori considerations is especially noteworthy in the case of the feature \alternativeMergeOrder in Cinque's system.
+In a literal reading of \citet{cinque2005deriving}, orders which violate the required merge order should occur with probability 0, and thus the feature \alternativeMergeOrder should be assigned infinitely negative weight.
 In that case the model would assign probability 0 to any data that has nonzero frequency for any such order.
-In our work we let the model learn that \texttt{ViolatesLCA} has a large negative weight, without postulating that orders violating the LCA must have probability 0.
+In our work we let the model learn that \alternativeMergeOrder has a large negative weight, without postulating that orders violating the required merge order must have probability 0.
 
 Here we represent Cinque's model using features for the sake of
 convenience in statistical comparison, while noting that this
@@ -176,7 +176,7 @@ multiplicity of possible derivations into account increases the
 complexity of the problem of inferring feature weights, and takes it
 outside the scope of standard Poisson regression or other generalized
 linear models.  This is a difficulty shared by the modeling approaches
-of \citet{cysouw2010towards} and \citet{merlo2015predicting}.  For
+of \citet{cysouw2010dealing} and \citet{merlo2015predicting}.  For
 expediency, however, we follow previous work in treating every word
 order not derivable from the D$>$N$>$A$>$n base structure of
 Figure~\ref{fig:cinque-base-order} as being derived by an alternative
@@ -224,7 +224,7 @@ uses \textbf{N} where we use \textbf{n}, and \textbf{Num} where we use
    operation appealed to for no other word order and not unambiguously
    categorizable in his parameters of movement in (7b); Cinque does
    not list the number of marked options for this order.
-   \citet{cysouw2010towards} dedicates a specific feature to this type
+   \citet{cysouw2010dealing} dedicates a specific feature to this type
    of movement in his modeling effort; we treat it as a case of
    movement of NP without pied piping.
 \end{itemize}
@@ -240,7 +240,7 @@ raising that gets the raised constituent all the way to the left edge,
 it is not considered to involve partial movement.
 
 Additionally, there are two cases of what we believe are coding errors
-by\citet{cysouw2010towards} in his implementation of Cinque's model
+by\citet{cysouw2010dealing} in his implementation of Cinque's model
 (see his Appendix on page 284): Cysouw encodes NnAD and nNAD as
 involving NP movement with pied piping of the \emph{whose picture}
 variety, but Cinque describes these orders (his (6s) and (6t)) as
@@ -292,11 +292,11 @@ In addition to making the model weights less interpretable, this non-monotonicit
 
 
 
-\subsection{Comparison with \citet{cysouw2010towards}}
+\subsection{Comparison with \citet{cysouw2010dealing}}
 \label{sec:comp-with-citetcys}
 
 As stated in Section~\ref{sec:notes-feat-citetc}, our approach here is
-very similar to that of \citet{cysouw2010towards}: we use the same
+very similar to that of \citet{cysouw2010dealing}: we use the same
 statistical model class and the same theory comparison
 (Cinque/Cysouw/Dryer).  The differences are as follows:
 %
@@ -363,7 +363,7 @@ The magnitude of the discrepancy corresponds to how much a model is penalized fo
 \end{figure}
 
 As another way to analyze the results, we show in Figures~\ref{fig:dryer-model} and \ref{fig:cinque-model} the weights assigned to features for different word unders under the Dryer model and the Cinque model.
-Here we see that Cinque's model works by strongly penalizing low-frequency orders using the \texttt{ViolatesLCA} feature, and then the differences among the remaining orders are handled by the rest of the features.
+Here we see that Cinque's model works by strongly penalizing low-frequency orders using the \alternativeMergeOrder feature, and then the differences among the remaining orders are handled by the rest of the features.
 The figure also highlights why the Dryer model underpredicts the frequency of $DNAn$ orders: these orders are positive for the \texttt{nadj} feature, which must have a negative weight in order to penalize various low-frequency orders.
 
 \begin{figure}[ht!]
