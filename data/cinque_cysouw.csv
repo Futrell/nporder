@@ -1,4 +1,4 @@
-,order,cy_whose_pic_move,cy_np_move_no_pp,cy_pic_of_who_move,cy_partial_move,cy_np_extraction,ViolatesLCA,note
+,order,cy_whose_pic_move,cy_np_move_no_pp,cy_pic_of_who_move,cy_partial_move,cy_np_extraction,AlternativeMergeOrder,note
 1,DNAn,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE
 2,DNnA,TRUE,FALSE,FALSE,TRUE,FALSE,FALSE
 3,DnNA,FALSE,TRUE,FALSE,TRUE,FALSE,FALSE

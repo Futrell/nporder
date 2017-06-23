@@ -1,4 +1,4 @@
-order,first,second,third,partial,complete,violates_lca
+order,first,second,third,partial,complete,AlternativeMergeOrder
 DNAn,An,NA,DN,not,not,FALSE
 DANn,Nn,DN,An,not,not,TRUE
 NDAn,An,DA,ND,not,not,TRUE
