@@ -17,7 +17,7 @@
 \maketitle
  
 \begin{abstract}
-  A frequent object of study in linguistic typology is the order of elements \{determiner, adjective, numeral, noun\} in the noun phrase. The goal is to predict the relative frequencies of these orders across languages. Here we use Poisson regression to statistically compare some prominent accounts of this variation. We compare feature systems derived from \citet{cinque2005deriving} to feature systems given in \citet{cysouw2010towards} and Dryer (in prep). In this setting, we do not find clear reasons to prefer the model of \citet{cinque2005deriving} or Dryer (in prep), but we find both of these models have substantially better fit to the typological data than the model from \citet{cysouw2010towards}.
+  A frequent object of study in linguistic typology is the order of elements \{determiner, adjective, numeral, noun\} in the noun phrase. The goal is to predict the relative frequencies of these orders across languages. Here we use Poisson regression to statistically compare some prominent accounts of this variation. We compare feature systems derived from \citet{cinque2005deriving} to feature systems given in \citet{cysouw2010dealing} and Dryer (in prep). In this setting, we do not find clear reasons to prefer the model of \citet{cinque2005deriving} or Dryer (in prep), but we find both of these models have substantially better fit to the typological data than the model from \citet{cysouw2010dealing}.
 \end{abstract}
 
 \section{Introduction}
@@ -67,7 +67,8 @@ Genera counts are the counts of linguistic genera showing a certain order; adjus
 Here we consider three proposals from the literature on how to explain these frequencies.
 We compare these proposals statistically in a log-linear framework based on how well they can predict the typological data given in Table~\ref{tab:order-freqs}.
 
-We consider three proposals from the literature: those given in Dryer (in prep), \citet{cysouw2010towards} and \citet{cinque2005deriving}.
+We consider three proposals from the literature: those given in Dryer (in prep), \citet{cysouw2010dealing} and \citet{cinque2005deriving}.
+The proposal in Dryer (in prep) is an update from the previous proposal of \citet{dryer2006cinque}.
 The first two of these theories are featural in nature: they associate each order with a set of marked features, and claim that orders with more marked features will be less frequent.
 The last model, that of \citet{cinque2005deriving}, is derivational in nature: it gives a generative model for how certain word orders arise, where certain decisions in the generative process are considered marked. Orders that require more marked operations to be generated are claimed to be less frequent.
 We reduce the last model to a featural model, and then compare which model provides a feature system which can best predict the typological data when the features have different degrees of markedness.
@@ -76,29 +77,35 @@ We reduce the last model to a featural model, and then compare which model provi
 
 \subsection{Basics}
 We consider each proposal from the literature to define a feature system, and compare the ability of each feature system to predict the observed frequencies of orders.
-To do so, we use Poisson regression, as first used in \citet{cysouw2010towards}.
-In Poisson regression we represent each langauge with a set of $m$ binary-valued features, and say that the expected frequency $F$ of a language in a sample of $k$ languages is given by:
+To do so, we use Poisson regression, as first used in \citet{cysouw2010dealing}.
+In Poisson regression we represent each language with a set of $m$ binary-valued features, and say that the expected frequency $F$ of a language in a sample of $k$ languages is given by:
 \begin{align}
   \nonumber
   &F = e^V \\
-  \nonumber
+  \label{eq:V}
   &V = w_b + w_1 \cdot f_1 + w_2 \cdot f_2 + ... + w_m \cdot f_m,
 \end{align}
 where $f_i$ is an indicator variable with value $0$ when the $i$th feature is $-$, and $1$ when the $i$th feature is $+$, and where the weights $w_b$ and $w_1, ..., w_m$ are those that maximize the probability of the observed counts of languages.
+Under the probabilistic model of Poisson regression, the probability of observing that a language with feature values $f_1, ..., f_m$ has frequency $F$ is:
+\begin{align}
+  \label{eq:p}
+  &p(F|f_1, ..., f_m) = \frac{e^{V} e^{-e^{V}}}{F!}, \\
+\end{align}
+with $V$ as in Equation~\ref{eq:V}.
 
 Performing this procedure tells us how well it is possible to predict languages in this framework given a certain set of features.
-Feature weights may be negative, in which case they can be considered \emph{marked}: the presence of these features is disfavored under the model.
+Feature weights may be negative, in which case they can be considered \emph{marked}. In that case, the model embodies the claim that the presence of these features is disfavored in languages.
 Since features get different weights, the model implements different degrees of markedness per feature, as in Harmonic Grammar \citep{smolensky2006harmonic}.
 The model finds the degrees of markedness which best predict the data given the feature system.
 
 \subsection{Feature systems under comparison}
 
-Within this framework, we compare three feature systems: (1) the system in Dryer (in prep), (2) the system in \citet{cysouw2010towards}, and (3) the theory of \citet{cinque2005deriving}. Cinque's theory is not phrased in terms of features, so we use two reductions of his theory to features: those presented in \citet{merlo2015predicting} and our own, shown in Figure~\ref{fig:cinque-model}.
+Within this framework, we compare three feature systems: (1) the system in Dryer (in prep), (2) the system in \citet{cysouw2010dealing}, and (3) the theory of \citet{cinque2005deriving}. Cinque's theory is not phrased in terms of features, so we use two reductions of his theory to features: those presented in \citet{merlo2015predicting} and our own, shown in Figure~\ref{fig:cinque-model}. Our featurization of Cinque's theory closely parallels the featurization given in \citet{cysouw2010dealing}.
 
 \subsection{Dependent variables}
 
 We apply Poisson regression to predict two quantities. First, we try to predict the \emph{adjusted frequency} of each order, as given in Dryer (in prep) and shown in Table~\ref{tab:order-freqs}. Second, we try to predict the counts of genera given in the same paper.
-We round the adjusted frequencies and genera counts to the nearest integer in order to satisfy the assumptions of Poisson regression (natural number-valued dependent variable).
+We round the adjusted frequencies to the nearest integer in order to satisfy the assumptions of Poisson regression (natural number-valued dependent variable). 
 
 \subsection{Basis for model comparison}
 
@@ -243,8 +250,8 @@ correct to us.
 \subsection{Comparison with \citet{merlo2015predicting}}
 
 \citet{merlo2015predicting} conducts a study with similar aims to ours and uses featurizations more or less the same as what we've discussed above.
-She uses features to predict frequency classes using a Naive Bayes estimator and an Weighted Averaged One-Dependence (WAODE) estimator, rather than Poisson regression as we use here and as was proposed by \citet{cysouw2010towards}.
-As a summary of how this work: \citet{merlo2015predicting} first discretizes the integer-valued word order frequency counts (by langauge or by genus) into 2, 4, or 7 categories; then she learns a model that categorizes language classes by their features according to the classic Naive Bayes formula:
+She uses features to predict frequency classes using a Naive Bayes estimator and an Weighted Averaged One-Dependence (WAODE) estimator, rather than Poisson regression as we use here and as was proposed by \citet{cysouw2010dealing}.
+As a summary of how this work: \citet{merlo2015predicting} first discretizes the integer-valued word order frequency counts (by language or by genus) into 2, 4, or 7 categories; then she learns a model that categorizes language classes by their features according to the classic Naive Bayes formula:
 \begin{align*}
   \nonumber
   P(\text{class}|\text{features}) &\propto P(\text{features}|\text{class}) P(\text{class}) \\
@@ -263,9 +270,26 @@ Our work differs from Merlo's approach on two points:
 
 We favor Poisson regression (and more generally log-linear models) over the Naive Bayes/WAODE approach because it allows us to predict more fine-grained typological data and to model the strong intuition that the effects of features on typological frequencies should be monotonic.
 In a model where the goal is to classify each language into the categories (e.g.) \{Very Frequent, Frequent, Rare, None\}, there is nothing to prevent a feature from getting weights that favor Very Frequent and None while disfavoring Frequent and Rare.
-Examples of this non-monotonicity in feature weights can be seen in Merlo's (2015) Table 11.
-This means that model weights from this framework cannot be considered markedness values, which either penalize an order (make it less frequent) or do not.
+Examples of this non-monotonicity in feature weights can be seen in Merlo's (2015) Table 11, our Table~\ref{tab:merlo-table}: the feature $\texttt{Harmony=Y}$ favors a language to be either Very Frequent or None, while favoring Frequent and Rare less.
+The monotonicity in weights means that the weights from this framework cannot be considered markedness values, which either penalize an order (make it less frequent) or do not.
 In addition to making the model weights less interpretable, this non-monotonicity means that the model has the flexibility to take advantage of artifacts of the discretization of word order frequencies into bins.
+
+\begin{table}
+  \centering
+  \begin{tabular}{|l r|}
+    \hline
+    Probability & Value \\
+    \hline
+    P($\texttt{Harmony=Y}|$Very Frequent) & = 0.99 \\
+    P($\texttt{Harmony=Y}|$Frequent) & = 0.16 \\
+    P($\texttt{Harmony=Y}|$Rare) & = 0.51 \\
+    P($\texttt{Harmony=Y}|$None) & = 0.55 \\    
+    \hline
+  \end{tabular}
+  \caption{Table of feature weights (conditional probabilities under the Naive Bayes assumption) from \citet{merlo2015predicting}, Table 11}
+  \label{tab:merlo-table}
+\end{table}
+
 
 
 \subsection{Comparison with \citet{cysouw2010towards}}
@@ -289,11 +313,11 @@ statistical model class and the same theory comparison
 
 \section{Results}
 
-The results do not give clear grounds for deciding between the Dryer model and the Cinque model, but both of these models come out better than the \citet{cysouw2010towards} model. Whether or not the Dryer model comes out better depends on whether we use the model to predict adjusted frequencies or genera counts.
+The results do not give clear grounds for deciding between the Dryer model and the Cinque model, but both of these models come out better than the \citet{cysouw2010dealing} model. Whether or not the Dryer model comes out better depends on whether we use the model to predict adjusted frequencies or genera counts.
 
 \subsection{Predicting Adjusted Frequencies}
 
-Table~\ref{tab:af-likelihoods} shows log likelihoods for models predicting adjusted frequency. It also shows the number of parameters (d.f.) in each model. The table shows that Cinque's model slightly outperforms Dryer (in prep) on fitting the data.
+Table~\ref{tab:af-likelihoods} shows log likelihoods for models predicting adjusted frequency (rounded to the nearest integer). It also shows the number of parameters (d.f.) in each model. The table shows that Cinque's model slightly outperforms Dryer (in prep) on fitting the data.
 
 \begin{table}
   \centering
@@ -302,13 +326,13 @@ Table~\ref{tab:af-likelihoods} shows log likelihoods for models predicting adjus
     Model & Log likelihood & d.f. \\
     \hline
     Dryer (in prep) & -46.6 & 6 \\
-    \citet{cysouw2010towards} & -60.1 & 5 \\
+    \citet{cysouw2010dealing} & -60.1 & 5 \\
     \citet{cinque2005deriving} (our features) & -44.0 & 7 \\
     \citet{cinque2005deriving} (tied markedness) & -44.6 & 5 \\
     \citet{cinque2005deriving} (Merlo's features) & -46.4 & 8\\
     \hline
   \end{tabular}
-  \caption{Log likelihoods of adjusted frequency data under various models, and the degrees of freedom (d.f.) of those models.}
+  \caption{Log likelihoods of \emph{adjusted frequency} data under various models, and the degrees of freedom (d.f.) of those models.}
   \label{tab:af-likelihoods}
 \end{table}
 
@@ -322,7 +346,7 @@ For a more detailed comparison of model performance, we compared model predictio
 \end{figure}
 
 
-We wanted to know how much each order contributed to model fit, so in Figure~\ref{fig:af-discrepancies} we show signed $\chi^2$-discrepancies between model predictions and adjusted frequency. The $\chi^2$ discrepancy measures how much the prediction error for each word order contributse to the overall discrepancy between data and model fit; signed $\chi^2$ discrepancy presents this discrepancy in the direction of the discrepancy for each order (whether it under-predicts or over-predicts).
+We wanted to know how much each order contributed to model fit, so in Figure~\ref{fig:af-discrepancies} we show signed $\chi^2$-discrepancies between model predictions and adjusted frequency. The $\chi^2$ discrepancy measures how much the prediction error for each word order contributes to the overall discrepancy between data and model fit; signed $\chi^2$ discrepancy presents this discrepancy in the direction of the discrepancy for each order (whether it under-predicts or over-predicts).
 If a model predicts a count of $E_i$ for the $i$th word order and the observed count is $O_i$, then the signed $\chi^2$ discrepancy is:
 \begin{align}
   \nonumber
@@ -356,6 +380,8 @@ The figure also highlights why the Dryer model underpredicts the frequency of $D
   \label{fig:cinque-model}
 \end{figure}
 
+One limitation of applying Poisson regression to the adjusted frequency data is that the distribution of adjusted frequencies does not match the distribution expected by Poisson regression. In particular, adjusted frequencies are compressed at the top of the frequency distribution, to avoid overrepresentation of the most frequent types (Dryer, in prep). This feature of adjusted frequencies introduces nonlinearity into the log frequencies, meaning that the probability model of Equation~\ref{eq:p} will inevitably deviate from the data in ways that are not modeled.
+
 \subsection{Predicting Genera Counts}
 
 Now we turn to models that were trained to predict the genera count data given in Dryer (in prep).
@@ -368,18 +394,17 @@ When we use the various feature systems to predict genera counts, we get the fol
     Model & Log likelihood & d.f. \\
     \hline
     Dryer (in prep) & -61.3 & 6 \\
-    \citet{cysouw2010towards} & -106.0 & 5 \\
+    \citet{cysouw2010dealing} & -106.0 & 5 \\
     Cinque (our features) & -67.9 & 7 \\
     Cinque (tied markedness) & -70.1 & 5 \\
     Cinque (Merlo's features) & -72.9 & 8 \\
-    \hline
+    \hline 
   \end{tabular}
-  \caption{Log likelihoods of genera count data under various models, and the degrees of freedom (d.f.) of those models.}  
+  \caption{Log likelihoods of \emph{genera count} data under various models, and the degrees of freedom (d.f.) of those models.}  
   \label{tab:genera-likelihoods}
 \end{table}
 
-So when predicting genera, we get the best fit to the data using the set of features from the current work
-, followed by Cinque's (2005) features, followed by Cysouw's (2010) features.
+So when predicting genera, we get the best fit to the data using the set of features from Dryer (in prep), followed by Cinque's (2005) features, followed by Cysouw's (2010) features.
 
 We think Cinque's model comes out worse when predicting genera primarily because it underpredicts $NnAD$ orders, whereas the Dryer model gets that order exactly correct. This can be seen in Figure~\ref{fig:genera-predictions}, which shows model predictions, and Figure~\ref{fig:genera-discrepancies}, which shows signed $\chi^2$ discrepancies compared to genera counts.
 Figures~\ref{fig:dryer-model-genera} and \ref{fig:cinque-model-genera} show the optimal feature weights for the Dryer and Cinque models, respectively, when predicting genera counts.
@@ -414,7 +439,7 @@ Figures~\ref{fig:dryer-model-genera} and \ref{fig:cinque-model-genera} show the 
 
 \section{Discussion}
 
-The results give clear evidence that the Dryer (in prep) and \citet{cinque2005deriving} model provide feature systems that have better predictive power than the model of \citet{cysouw2010towards}. But in our opinion they do not give strong reason to favor Cinque's model over Dryer's model or vice versa. Although under a certain interpretation Cinque's model can a slightly higher fit to the data, this only holds under one featurization, and it does not hold when predicting genera counts. The analysis suggests that the Dryer model and the Cinque model have roughly similar predictive power, and the current data do not discriminate between them.
+The results give clear evidence that the Dryer (in prep) and \citet{cinque2005deriving} model provide feature systems that have better predictive power than the model of \citet{cysouw2010dealing}. But in our opinion they do not give strong reason to favor Cinque's model over Dryer's model or vice versa. Although under a certain interpretation Cinque's model can a slightly higher fit to the data, this only holds under one featurization, and it does not hold when predicting genera counts. The discrepancy in results between adjusted frequency and genera counts may be due to the particular distributional characteristics of adjusted frequency as discussed above. The analysis suggests overall that the Dryer model and the Cinque model have roughly similar predictive power, and the current data do not discriminate between them.
 
 
 \section*{Acknowledgments} 
