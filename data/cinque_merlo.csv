@@ -1,4 +1,4 @@
-order,first,second,third,partial,complete,AlternativeMergeOrder
+order,first,second,third,partial,complete,Merlo_AlternativeMergeOrder
 DNAn,An,NA,DN,not,not,FALSE
 DANn,Nn,DN,An,not,not,TRUE
 NDAn,An,DA,ND,not,not,TRUE
