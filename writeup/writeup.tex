@@ -17,16 +17,19 @@
 \maketitle
  
 \begin{abstract}
-  A frequent object of study in linguistic typology is the order of elements \{determiner, adjective, numeral, noun\} in the noun phrase. The goal is to predict the relative frequencies of these orders across languages. Here we use Poisson regression to statistically compare some prominent accounts of this variation. We compare feature systems derived from \citet{cinque2005deriving} to feature systems given in \citet{cysouw2010dealing} and Dryer (in prep). In this setting, we do not find clear reasons to prefer the model of \citet{cinque2005deriving} or Dryer (in prep), but we find both of these models have substantially better fit to the typological data than the model from \citet{cysouw2010dealing}.
+  A frequent object of study in linguistic typology is the order of elements \{demonstrative, adjective, numeral, noun\} in the noun phrase. The goal is to predict the relative frequencies of these orders across languages. Here we use Poisson regression to statistically compare some prominent accounts of this variation. We compare feature systems derived from \citet{cinque2005deriving} to feature systems given in \citet{cysouw2010dealing} and Dryer (in prep). In this setting, we do not find clear reasons to prefer the model of \citet{cinque2005deriving} or Dryer (in prep), but we find both of these models have substantially better fit to the typological data than the model from \citet{cysouw2010dealing}.
 \end{abstract}
 
 \section{Introduction}
 
 A frequent object of study in linguistic typology is the variation in the order of elements inside the noun phrase (NP) across languages.
-In particular, much work has focused on predicting the relative frequencies across languages of orders of the elements \{determiner, adjective, numeral, noun\}.
+In particular, much work has focused on predicting the relative frequencies across languages of orders of the elements \{demonstrative, adjective, numeral, noun\}.
 Table~\ref{tab:order-freqs} shows the relative frequencies of different orders for these elements across languages (assuming each language exhibits only one dominant order) according to data given in Dryer (in prep).
-In this table, $D$ stands for determiner, $N$ stands for numeral, $A$ stands for adjective, and $n$ stands for noun.
-Genera counts are the counts of linguistic genera showing a certain order; adjusted frequencies are calculated using a methodology described in Dryer (in prep).
+In this table, $D$ stands for demonstrative, $N$ stands for numeral, $A$ stands for adjective, and $n$ stands for noun.
+Genera counts are the counts of linguistic genera showing a certain
+order; adjusted frequencies are calculated using a methodology
+described in Dryer (in prep) intended to minimize any
+overrepresentation of some orders that may arise from areal effects.
 
 \begin{table}
   \centering
@@ -81,22 +84,35 @@ To do so, we use Poisson regression, as first used in \citet{cysouw2010dealing}.
 In Poisson regression we represent each language with a set of $m$ binary-valued features, and say that the expected frequency $F$ of a language in a sample of $k$ languages is given by:
 \begin{align}
   \nonumber
-  &F = e^V \\
+  F& = e^V \\
   \label{eq:V}
-  &V = w_b + w_1 \cdot f_1 + w_2 \cdot f_2 + ... + w_m \cdot f_m,
-\end{align}
+  V& = w_b + w_1 \cdot f_1 + w_2 \cdot f_2 + ... + w_m \cdot f_m,\\
+%
+\intertext{
 where $f_i$ is an indicator variable with value $0$ when the $i$th feature is $-$, and $1$ when the $i$th feature is $+$, and where the weights $w_b$ and $w_1, ..., w_m$ are those that maximize the probability of the observed counts of languages.
-Under the probabilistic model of Poisson regression, the probability of observing that a language with feature values $f_1, ..., f_m$ has frequency $F$ is:
-\begin{align}
+Under the probabilistic model of Poisson regression, the expected
+frequency of a language with feature values $f_1, ..., f_m$ is}
+%
+\nonumber
+  \lambda &= e^V\\
+\intertext{with $V$ as in Equation~\ref{eq:V}.
+The probability that such a language will be observed to have frequency $F$ is:}
+%
   \label{eq:p}
-  &p(F|f_1, ..., f_m) = \frac{e^{V} e^{-e^{V}}}{F!},
+  p(F|f_1, ..., f_m) &= \frac{\lambda^F e^{-\lambda}}{F!}
 \end{align}
-with $V$ as in Equation~\ref{eq:V}.
 
-Performing this procedure tells us how well it is possible to predict languages in this framework given a certain set of features.
-Feature weights may be negative, in which case they can be considered \emph{marked}. In that case, the model embodies the claim that the presence of these features is disfavored in languages.
-Since features get different weights, the model implements different degrees of markedness per feature, as in Harmonic Grammar \citep{smolensky2006harmonic}.
-The model finds the degrees of markedness which best predict the data given the feature system.
+
+Fitting a Poisson regression model using a certain set of features to
+a set of (possibly adjusted) frequency tells us how well it is
+possible to predict languages in this framework given that set of
+features.  Feature weights may be negative, in which case they can be
+considered \emph{marked}. In that case, the model embodies the claim
+that the presence of these features is disfavored in languages.  Since
+features get different weights, the model implements different degrees
+of markedness per feature, as in Harmonic Grammar
+\citep{smolensky2006harmonic}.  The model finds the degrees of
+markedness which best predict the data given the feature system.
 
 \subsection{Feature systems under comparison}
 
@@ -104,8 +120,13 @@ Within this framework, we compare three feature systems: (1) the system in Dryer
 
 \subsection{Dependent variables}
 
-We apply Poisson regression to predict two quantities. First, we try to predict the \emph{adjusted frequency} of each order, as given in Dryer (in prep) and shown in Table~\ref{tab:order-freqs}. Second, we try to predict the counts of genera given in the same paper.
-We round the adjusted frequencies to the nearest integer in order to satisfy the assumptions of Poisson regression (natural number-valued dependent variable). 
+We apply Poisson regression to predict two quantities. First, we try
+to predict the \emph{adjusted frequency} of each order, as given in
+Dryer (in prep) and shown in Table~\ref{tab:order-freqs}.  (We round
+the adjusted frequencies to the nearest integer in order to satisfy
+the Poisson regression assumption that the dependent variable is a
+natural number.)  Second, we try to predict the counts of genera given
+in the same paper.
 
 \subsection{Basis for model comparison}
 
@@ -380,7 +401,14 @@ The figure also highlights why the Dryer model underpredicts the frequency of $D
   \label{fig:cinque-model}
 \end{figure}
 
-One limitation of applying Poisson regression to the adjusted frequency data is that the distribution of adjusted frequencies does not match the distribution expected by Poisson regression. In particular, adjusted frequencies are compressed at the top of the frequency distribution, to avoid overrepresentation of the most frequent types (Dryer, in prep). This feature of adjusted frequencies introduces nonlinearity into the log frequencies, meaning that the probability model of Equation~\ref{eq:p} will inevitably deviate from the data in ways that are not modeled.
+One limitation of applying Poisson regression to the adjusted
+frequency data is that Dryer (in prep)'s method of computing adjusted
+frequencies in general compresses high frequency counts more than low
+frequency counts.  This means that adjusted frequency may overly penalize
+models that perform best at predicting the counts of common orders.
+For this reason, it is also important to evaluate the performance of the models under
+consideration in predicting genera counts.  We turn to this matter in
+the next section.
 
 \subsection{Predicting Genera Counts}
 
