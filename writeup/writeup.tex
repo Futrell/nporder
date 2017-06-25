@@ -81,25 +81,20 @@ We reduce the last model to a featural model, and then compare which model provi
 \subsection{Basics}
 We consider each proposal from the literature to define a feature system, and compare the ability of each feature system to predict the observed frequencies of orders.
 To do so, we use Poisson regression, as first used in \citet{cysouw2010dealing}.
-In Poisson regression we represent each language with a set of $m$ binary-valued features, and say that the expected frequency $F$ of a language in a sample of $k$ languages is given by:
+In Poisson regression we represent each language with a set of $m$ binary-valued features, and say that the expected frequency $\lambda$ of a language in a sample of $k$ languages is given by:
 \begin{align}
   \nonumber
-  F& = e^V \\
+  &\lambda = e^V \\
   \label{eq:V}
-  V& = w_b + w_1 \cdot f_1 + w_2 \cdot f_2 + ... + w_m \cdot f_m,\\
+  &V = w_b + w_1 \cdot f_1 + w_2 \cdot f_2 + ... + w_m \cdot f_m,\\
 %
 \intertext{
 where $f_i$ is an indicator variable with value $0$ when the $i$th feature is $-$, and $1$ when the $i$th feature is $+$, and where the weights $w_b$ and $w_1, ..., w_m$ are those that maximize the probability of the observed counts of languages.
-Under the probabilistic model of Poisson regression, the expected
-frequency of a language with feature values $f_1, ..., f_m$ is}
-%
-\nonumber
-  \lambda &= e^V\\
-\intertext{with $V$ as in Equation~\ref{eq:V}.
-The probability that such a language will be observed to have frequency $F$ is:}
+Under the probabilistic model of Poisson regression, the probabability that 
+a language with feature values $f_1, ..., f_m$ has frequency $F$ is:}
 %
   \label{eq:p}
-  p(F|f_1, ..., f_m) &= \frac{\lambda^F e^{-\lambda}}{F!}
+  &p(F|f_1, ..., f_m) = \frac{\lambda^F e^{-\lambda}}{F!}.
 \end{align}
 
 
@@ -397,7 +392,7 @@ The figure also highlights why the Dryer model underpredicts the frequency of $D
 \begin{figure}[ht!]
   \centering
   \includegraphics[scale=.7]{cinque_regression_af.pdf}
-  \cprotect\caption{Feature weights from the \citet{cinque2005deriving} model when predicting adjusted frequency (first column). Note that the feature \verb+whose_pic_move+ comes out to have a positive weight.}
+  \cprotect\caption{Feature weights from the \citet{cinque2005deriving} model when predicting adjusted frequency (first column). Note that the feature \verb+whose_pic_move+ comes out to have a (non-significant) positive weight.}
   \label{fig:cinque-model}
 \end{figure}
 
@@ -461,7 +456,7 @@ Figures~\ref{fig:dryer-model-genera} and \ref{fig:cinque-model-genera} show the 
 \begin{figure}[ht!]
   \centering
   \includegraphics[scale=.7]{cinque_regression_genera.pdf}
-  \cprotect\caption{Feature weights from the \citet{cinque2005deriving} model when predicting genera counts (first column). Note that the feature \verb+whose_pic_move+ comes out to have a positive weight.}
+  \cprotect\caption{Feature weights from the \citet{cinque2005deriving} model when predicting genera counts (first column). Note that the feature \verb+total_move+ comes out to have a (non-significant) positive weight.}
   \label{fig:cinque-model-genera}
 \end{figure}
 
