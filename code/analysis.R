@@ -2,8 +2,8 @@ library(tidyverse)
 library(broom)
 library(stringr)
 
-correct_cinque_features = TRUE
-markedness_sign_convention = TRUE
+correct_cinque_features = TRUE # apply corrections to Merlo featurization
+markedness_sign_convention = TRUE  # enforce consistency in markedness sign convention
 
 assert = stopifnot
 
@@ -59,26 +59,28 @@ dryer_model2 = glm(rounded_adjusted_frequency ~
                   data=d)
 
 cinque_model = glm(rounded_adjusted_frequency ~
-                       ViolatesLCA +
+                       Merlo_AlternativeMergeOrder +
                        partial +
                        complete,
                    family="poisson", 
                    data=d)
 
 cinque2_model_all = glm(rounded_adjusted_frequency ~
-                        ViolatesLCA +
+                        AlternativeMergeOrder +
                         whose_pic_move +
                         np_move_no_pp +
                         pic_of_who_move +
                         partial_move +
+                        np_extraction +
                         total_move,
                     family="poisson",
                     data=d)
 
 cinque2_model_unmarked = glm(rounded_adjusted_frequency ~
-                        ViolatesLCA +
+                        AlternativeMergeOrder +
                         np_move_no_pp +
                         pic_of_who_move +
+                        np_extraction +
                         partial_move,
                     family="poisson",
                     data=d)
@@ -86,15 +88,16 @@ cinque2_model_unmarked = glm(rounded_adjusted_frequency ~
 cinque2_model_markedness = d %>%
     mutate(markedness=np_move_no_pp + partial_move) %>%
     glm(rounded_adjusted_frequency ~
-            ViolatesLCA +
+            AlternativeMergeOrder +
             pic_of_who_move +
+            np_extraction +
             markedness,
         family="poisson",
         data=.)
 
 
 cinque3_model_all = glm(rounded_adjusted_frequency ~
-                        ViolatesLCA +
+                        AlternativeMergeOrder +
                         cy_whose_pic_move +
                         cy_np_move_no_pp +
                         cy_pic_of_who_move +
@@ -104,7 +107,7 @@ cinque3_model_all = glm(rounded_adjusted_frequency ~
                     data=d)
 
 cinque3_model_unmarked = glm(rounded_adjusted_frequency ~
-                        ViolatesLCA +
+                        AlternativeMergeOrder +
                         cy_np_move_no_pp +
                         cy_pic_of_who_move +
                         cy_partial_move,
@@ -114,7 +117,7 @@ cinque3_model_unmarked = glm(rounded_adjusted_frequency ~
 cinque3_model_markedness = d %>%
     mutate(markedness=cy_np_move_no_pp + cy_partial_move) %>%
     glm(rounded_adjusted_frequency ~
-            ViolatesLCA +
+            AlternativeMergeOrder +
             cy_pic_of_who_move +
             markedness,
         family="poisson",
@@ -146,26 +149,28 @@ dryer_model2_genera = glm(genera ~
                   data=d)
 
 cinque_model_genera = glm(genera ~
-                       ViolatesLCA +
+                       Merlo_AlternativeMergeOrder +
                        partial +
                        complete,
                    family="poisson", 
                    data=d)
 
 cinque2_model_all_genera = glm(genera ~
-                        ViolatesLCA +
+                        AlternativeMergeOrder +
                         whose_pic_move +
                         np_move_no_pp +
                         pic_of_who_move +
+                        np_extraction +
                         partial_move +
                         total_move,
                     family="poisson",
                     data=d)
 
 cinque2_model_unmarked_genera = glm(genera ~
-                        ViolatesLCA +
+                        AlternativeMergeOrder +
                         np_move_no_pp +
                         pic_of_who_move +
+                        np_extraction +
                         partial_move,
                     family="poisson",
                     data=d)
@@ -173,14 +178,15 @@ cinque2_model_unmarked_genera = glm(genera ~
 cinque2_model_markedness_genera = d %>%
     mutate(markedness=np_move_no_pp + partial_move) %>%
     glm(genera ~
-            ViolatesLCA +
+            AlternativeMergeOrder +
             pic_of_who_move +
+            np_extraction +
             markedness,
         family="poisson",
         data=.)
 
 cinque3_model_all_genera = glm(genera ~
-                        ViolatesLCA +
+                        AlternativeMergeOrder +
                         cy_whose_pic_move +
                         cy_np_move_no_pp +
                         cy_pic_of_who_move +
@@ -190,7 +196,7 @@ cinque3_model_all_genera = glm(genera ~
                     data=d)
 
 cinque3_model_unmarked_genera = glm(genera ~
-                        ViolatesLCA +
+                        AlternativeMergeOrder +
                         cy_np_move_no_pp +
                         cy_pic_of_who_move +
                         cy_partial_move,
@@ -200,7 +206,7 @@ cinque3_model_unmarked_genera = glm(genera ~
 cinque3_model_markedness_genera = d %>%
     mutate(markedness=cy_np_move_no_pp + cy_partial_move) %>%
     glm(genera ~
-            ViolatesLCA +
+            AlternativeMergeOrder +
             cy_pic_of_who_move +
             markedness,
         family="poisson",
@@ -326,7 +332,7 @@ d_with_predictions %>%
             axis.text.x=element_blank(),
             axis.title.x=element_blank(),
             legend.title=element_blank()) +
-      scale_fill_manual(labels=c("Current work", "Cysouw", "Cinque"), values=hues)
+      scale_fill_manual(labels=c("Dryer", "Cysouw", "Cinque"), values=hues)
 
 ggsave("../output/model_discrepancies_chisq.pdf", width=7, height=5)
 
@@ -345,7 +351,7 @@ d_with_predictions %>%
             axis.title.x=element_blank(),
             legend.title=element_blank()) +
       #scale_alpha_discrete(range=c(.6, 1), guide=FALSE) +
-      scale_fill_manual(labels=c("Genera", "Current Prediction", "Cysouw Prediction", "Cinque Prediction"),
+      scale_fill_manual(labels=c("Genera", "Dryer Prediction", "Cysouw Prediction", "Cinque Prediction"),
                         values=c("black", hues))
 
 ggsave("../output/model_plots_genera.pdf", width=7, height=5)
@@ -369,7 +375,7 @@ d_with_predictions %>%
             axis.text.x=element_blank(),
             axis.title.x=element_blank(),
             legend.title=element_blank()) +
-      scale_fill_manual(labels=c("Current work", "Cysouw", "Cinque"), values=hues)
+      scale_fill_manual(labels=c("Dryer", "Cysouw", "Cinque"), values=hues)
 
 ggsave("../output/model_discrepancies_genera.pdf", width=7, height=5)
 
@@ -391,7 +397,7 @@ d_with_predictions %>%
             axis.text.x=element_blank(),
             axis.title.x=element_blank(),
             legend.title=element_blank()) +
-      scale_fill_manual(labels=c("Current work", "Cysouw", "Cinque"), values=hues)
+      scale_fill_manual(labels=c("Dryer", "Cysouw", "Cinque"), values=hues)
 
 ggsave("../output/model_discrepancies_chisq_genera.pdf", width=7, height=5)
 
@@ -429,14 +435,16 @@ regression_table_figure = function(model, depvar, filename) {
         mutate(term=factor(term, levels=levels(reorder(coefficients$term, coefficients$estimate)))) %>%
         ggplot(aes(x=term, y=order, fill=wvalue, label=table_cell(wvalue))) +
         geom_tile() +
-        geom_text() +
+        geom_text(color="white") +
         theme_bw() +
         scale_x_discrete(position="top") +
         xlab("Factor") +
         ylab("NP Order") +
         labs(fill="Weight") +
         geom_text(aes(label=formatC(dependent, format="f", digits=1), x=0), hjust=-0.3) +
-        theme(panel.grid.major = element_blank())
+        theme(panel.grid.major = element_blank(),
+              axis.text.x=element_text(angle=45,
+                                       hjust=0))
 
     ggsave(str_c("../output/", filename), height=8.25, width=7.5)
     print("Plot saved in file:")
