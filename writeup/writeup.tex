@@ -7,7 +7,8 @@
 \usepackage{tikz-qtree}
 
 \newcommand{\alternativeMergeOrder}{\texttt{AlternativeMergeOrder}\xspace}
-
+\newcommand{\lt}{<}
+\newcommand{\gt}{>}
 
 \title{A Statistical Comparison of Some Theories of NP~Word~Order}
 \author{Richard Futrell, Roger Levy, and Matthew Dryer}
@@ -89,7 +90,8 @@ In Poisson regression we represent each language with a set of $m$ binary-valued
   &V = w_b + w_1 \cdot f_1 + w_2 \cdot f_2 + ... + w_m \cdot f_m,\\
 %
 \intertext{
-where $f_i$ is an indicator variable with value $0$ when the $i$th feature is $-$, and $1$ when the $i$th feature is $+$, and where the weights $w_b$ and $w_1, ..., w_m$ are those that maximize the probability of the observed counts of languages.
+  where $f_i$ is an indicator variable with value $0$ when the $i$th feature is $-$, and $1$ when the $i$th feature is $+$, and where the weights $w_b$ and $w_1, ..., w_m$ are those that maximize the probability of the observed counts of languages.
+  The weight $w_b$ is called a \textbf{bias} term.
 Under the probabilistic model of Poisson regression, the probabability that 
 a language with feature values $f_1, ..., f_m$ has frequency $F$ is:}
 %
@@ -250,7 +252,7 @@ Regarding the first two cases, it should be emphasized that
 does not count as partial (and thus marked) movement.  For example,
 NnAD is described as involving partial (and thus marked) raising of NP
 around A, followed by a second raising that gets the raised
-constituent all the way to the left edge, but though nNAD likewise starts
+constituent all the way to the left edge. But although nNAD likewise starts
 with a partial raising of NP around A (and N) followed by a second
 raising that gets the raised constituent all the way to the left edge,
 it is not considered to involve partial movement.
@@ -285,7 +287,7 @@ and one case of what might or might not be a coding error:
 
 \citet{merlo2015predicting} conducts a study with similar aims to ours and uses featurizations more or less the same as what we've discussed above.
 She uses features to predict frequency classes using a Naive Bayes estimator and an Weighted Averaged One-Dependence (WAODE) estimator, rather than Poisson regression as we use here and as was proposed by \citet{cysouw2010dealing}.
-As a summary of how this work: \citet{merlo2015predicting} first discretizes the integer-valued word order frequency counts (by language or by genus) into 2, 4, or 7 categories; then she learns a model that categorizes language classes by their features according to the classic Naive Bayes formula:
+As a summary of how this works: \citet{merlo2015predicting} first discretizes the integer-valued word order frequency counts (by language or by genus) into 2, 4, or 7 categories; then she learns a model that categorizes language classes by their features according to the classic Naive Bayes formula:
 \begin{align*}
   \nonumber
   P(\text{class}|\text{features}) &\propto P(\text{features}|\text{class}) P(\text{class}) \\
@@ -296,6 +298,9 @@ where $f_i$ is the value of the $i$th feature in the featurization scheme under 
 Note that technically these ``features'' are attribute-value pairs, such as $\texttt{Symmetry1=T}$ for the Dryer model or $\texttt{Partial=whose-pp}$ for the Cinque model.
 The WAODE model is a bit more complex than the Naive Bayes model but is fundamentally similar.
 
+These models are trained under two approaches: type-based, where training data consists of language types and their features and frequencies, and token-based, where the frequent language types are repeated multiple times in the training data and the language types with frequency zero appear with frequency zero.
+Note that in the token-based approach, the model is not penalized for miscategorizing language types with frequency None, because these do not appear in the training data.
+
 Our work differs from Merlo's approach on two points:
 \begin{itemize}
 \item In predicting typological data, we use Poisson regression, which is a discriminative log-linear predictor, rather than Naive Bayes and WAODE, which are generative models.
@@ -303,7 +308,9 @@ Our work differs from Merlo's approach on two points:
 \end{itemize}
 
 We favor Poisson regression (and more generally log-linear models) over the Naive Bayes/WAODE approach because it allows us to predict more fine-grained typological data and to model the strong intuition that the effects of features on typological frequencies should be monotonic.
-In a model where the goal is to classify each language into the categories (e.g.) \{Very Frequent, Frequent, Rare, None\}, there is nothing to prevent a feature from getting weights that favor Very Frequent and None while disfavoring Frequent and Rare.
+
+Merlo's (2015) models have the property that feature weights are not monotonic in their preferences for frequency classes.
+For example, in a model where the goal is to classify each language into the categories (e.g.) \{Very Frequent, Frequent, Rare, None\}, there is nothing to prevent a feature from getting weights that favor Very Frequent and None while disfavoring Frequent and Rare.
 Examples of this non-monotonicity in feature weights can be seen in Merlo's (2015) Table 11, our Table~\ref{tab:merlo-table}: the feature $\texttt{Harmony=Y}$ favors a language to be either Very Frequent or None, while favoring Frequent and Rare less.
 The monotonicity in weights means that the weights from this framework cannot be considered markedness values, which either penalize an order (make it less frequent) or do not.
 In addition to making the model weights less interpretable, this non-monotonicity means that the model has the flexibility to take advantage of artifacts of the discretization of word order frequencies into bins.
@@ -320,7 +327,7 @@ In addition to making the model weights less interpretable, this non-monotonicit
     P($\texttt{Harmony=Y}|$None) & = 0.55 \\    
     \hline
   \end{tabular}
-  \caption{Table of feature weights (conditional probabilities under the Naive Bayes assumption) from \citet{merlo2015predicting}, Table 11}
+  \caption{Table of feature weights (conditional probabilities under the Naive Bayes assumption) from \citet{merlo2015predicting}, Table 11.}
   \label{tab:merlo-table}
 \end{table}
 
@@ -341,7 +348,7 @@ statistical model class and the same theory comparison
   earlier feature set of Dryer (in prep);
 \item We correct what we believe are two featurization errors made by
   Cysouw in featurizing Cinque's theory, and we featurize order nDAN
-  differently than Cysouw does (see above).
+  differently from what Cysouw does (see above).
 \end{itemize}
 
 
@@ -361,8 +368,8 @@ Table~\ref{tab:af-likelihoods} shows log likelihoods for models predicting adjus
     \hline
     Dryer (in prep) & -46.6 & 6 \\
     \citet{cysouw2010dealing} & -60.1 & 5 \\
-    \citet{cinque2005deriving} (our features) & -44.2 & 7 \\
-    \citet{cinque2005deriving} (tied markedness) & -44.6 & 5 \\
+    \citet{cinque2005deriving} (our features) & -44.2 & 8 \\
+    %\citet{cinque2005deriving} (tied markedness) & -44.6 & 5 \\
     \citet{cinque2005deriving} (Merlo's features) & -46.0 & 8\\
     \hline
   \end{tabular}
@@ -436,8 +443,8 @@ When we use the various feature systems to predict genera counts, we get the fol
     \hline
     Dryer (in prep) & -61.3 & 6 \\
     \citet{cysouw2010dealing} & -106.0 & 5 \\
-    Cinque (our features) & -67.7 & 7 \\
-    Cinque (tied markedness) & -70.1 & 5 \\
+    Cinque (our features) & -67.7 & 8 \\
+    %Cinque (tied markedness) & -70.1 & 5 \\
     Cinque (Merlo's features) & -71.1 & 8 \\
     \hline 
   \end{tabular}
@@ -491,5 +498,155 @@ This work was supported by NSF DDRI grant \#1551543 to R.F.
 
 \bibliography{everything}
 \bibliographystyle{apa}
+
+\appendix
+\section{Feature weights}
+\begin{table}[ht!]
+  \centering
+  \begin{tabular}{|l|r|r|r|}
+    \hline
+    Feature & Weight & Std. Error & $p$ \\
+    \hline
+    (Bias) &  3.2267  &   0.1615 &  $\lt$ .001 \\
+    icon1  & -1.2544  &   0.2300 &  $\lt$ .001 \\
+    icon2  & -0.9911 &      0.2515 &  $\lt$ .001 \\
+    asym  &  -1.5542 &      0.5004 &  .002 \\
+    harmony &     -0.8322   &  0.1832 & $\lt$ .001 \\
+    nadj    &     -0.5687  &   0.2063 & .005    \\
+    \hline
+  \end{tabular}
+  \caption{Feature weights for the model of Dryer (in prep) when predicting \textbf{adjusted frequency}.}
+\end{table}
+
+\begin{table}[ht!]
+  \centering
+  \begin{tabular}{|l|r|r|r|}
+    \hline
+    Feature & Weight & Std. Error & $p$ \\
+    \hline
+    (Bias)      &  3.1103 &     0.1575 &  $\lt$ .001 \\
+    na\_adjacency &  -1.0247 &     0.2228 & $\lt$ .001 \\
+    n\_edge      &  -0.4047 &     0.1783 &   .023 \\
+    d\_edge      &  -1.0301 &     0.1907 & $\lt$ .001 \\
+    na\_order    &  -0.9039 &     0.1956 & $\lt$ .001 \\
+    \hline
+  \end{tabular}
+  \caption{Feature weights for the model of \citet{cysouw2010dealing} when predicting \textbf{adjusted frequency}.}
+\end{table}
+
+\begin{table}[ht!]
+  \centering
+  \begin{tabular}{|l|r|r|r|}
+    \hline
+    Feature & Weight & Std. Error & $p$ \\
+    \hline
+    (Bias)              &  3.09104 &    0.21320 &  $\lt$ .001 \\
+    AlternativeMergeOrder & -3.19640  &  0.0780 & $\lt$ .001 \\
+    whose\_pic\_move       &  0.00606 &    0.32178 & .985 \\
+    np\_move\_no\_pp       &  -0.93932 &    0.30375 & .002 \\
+    pic\_of\_who\_move     &  -1.19724 &    0.34320 & $\lt$ .001 \\
+    partial\_move        &  -0.33020 &    0.40249 & .412 \\
+    np\_extraction       &  -0.89013 &    0.43505 & .041 \\
+    total\_move          &  -0.26106 &    0.46741 & .576 \\
+    \hline
+  \end{tabular}
+  \caption{Feature weights for the model of \citet{cinque2005deriving} under our featurization when predicting \textbf{adjusted frequency}.}
+\end{table}
+
+\begin{table}[ht!]
+  \centering
+  \begin{tabular}{|l|r|r|r|}
+    \hline
+    Feature & Weight & Std. Error & $p$ \\
+    \hline
+    (Bias)                    &  2.84847 &    0.19011 &  $\lt$ .001 \\
+    AlternativeMergeOrder & -2.97033 &   0.5470 & $\lt$ .001 \\
+    partial\_np                     &  -0.90396 &    0.27128 & $\lt$ .001 \\
+    partial\_of-who-pp              &  -1.76430 &    0.43659 & $\lt$ .001  \\
+    partial\_whose-pp                &  0.03608 &    0.21671 & .868 \\
+    complete\_np                    &  -1.09933 &    0.25745 & $\lt$ .001 \\
+    complete\_of-who-pp             &  -1.03312 &    0.28977 & $\lt$ .001 \\
+    complete\_whose-pp               &  0.02867 &    0.25442 & .910 \\
+    \hline
+  \end{tabular}
+  \caption{Feature weights for the model of \citet{cinque2005deriving} under Merlo's (2015) featurization when predicting \textbf{adjusted frequency}.}
+\end{table}
+
+
+
+\begin{table}[ht!]
+  \centering
+  \begin{tabular}{|l|r|r|r|}
+    \hline
+    Feature & Weight & Std. Error & $p$ \\
+    \hline
+    (Bias) & 4.56458 &    0.09102 &  $\lt$ .001 \\
+    icon1      & -1.84600 &    0.17029 & $\lt$ .001 \\
+    icon2      & -1.80865 &    0.20695 & $\lt$ .001 \\
+    asym       & -1.77394 &    0.47645 & $\lt$ .001 \\
+    harmony    & -1.25179 &    0.11740 & $\lt$ .001 \\
+    nadj       & -0.86771 &    0.13439 & $\lt$ .001 \\
+    \hline
+  \end{tabular}
+  \caption{Feature weights for the model of Dryer (in prep) when predicting \textbf{genera counts}.}
+\end{table}
+
+\begin{table}[ht!]
+  \centering
+  \begin{tabular}{|l|r|r|r|}
+    \hline
+    Feature & Weight & Std. Error & $p$ \\
+    \hline
+    (Bias)      & 4.41097 &    0.09217 &  $\lt$ .001 \\
+    na\_adjacency & -1.77523 &    0.17740 &  $\lt$ .001 \\
+    n\_edge       & -0.76628 &    0.11678 & $\lt$ .001 \\
+    d\_edge       & -1.24504 &    0.13132 &  $\lt$ .001 \\
+    na\_order     & -1.22424 &    0.13152 &  $\lt$ .001 \\
+    \hline
+  \end{tabular}
+  \caption{Feature weights for the model of \citet{cysouw2010dealing} when predicting \textbf{genera counts}.}
+\end{table}
+
+\begin{table}[ht!]
+  \centering
+  \begin{tabular}{|l|r|r|r|}
+    \hline
+    Feature & Weight & Std. Error & $p$ \\
+    \hline
+    (Bias)                & 4.0431 &     0.1325 & $\lt$ .001\\
+    AlternativeMergeOrder & -4.1484 &     0.3586 & $\lt$ .001\\
+    whose\_pic\_move        & -0.2471 &     0.2335 & .290 \\
+    np\_move\_no\_pp         & -1.9358 &     0.2081 & $\lt$ .001\\
+    pic\_of\_who\_move       & -1.3523 &     0.2527 & $\lt$ .001\\
+    np\_extraction         & -1.9767 &     0.3203 & $\lt$ .001\\
+    partial\_move          & -0.2081 &     0.2835 &   .463 \\
+    total\_move            &  0.5786 &    0.2956  &  .050 \\
+    \hline
+  \end{tabular}
+  \caption{Feature weights for the model of \citet{cinque2005deriving} under our featurization when predicting \textbf{genera counts}.}
+\end{table}
+
+\begin{table}[ht!]
+  \centering
+  \begin{tabular}{|l|r|r|r|}
+    \hline
+    Feature & Weight & Std. Error & $p$ \\
+    \hline
+    AlternativeMergeOrder & -3.92246 &    0.37106 & $\lt$ .001 \\
+    partial\_np                      & -1.79085 &    0.21596 & $\lt$ .001 \\
+    partial\_of-who-pp               & -2.40130 &    0.31357 & $\lt$ .001 \\
+    partial\_whose-pp                & -0.03155 &    0.14208 & .824 \\
+    complete\_np                     & -1.35753 &    0.18655 & $\lt$ .001 \\
+    complete\_of-who-pp              & -0.98344 &    0.18786 & $\lt$ .001 \\
+    complete\_whose-pp                & 0.52716 &    0.15617 & $\lt$ .001 \\
+    \hline
+  \end{tabular}
+  \caption{Feature weights for the model of \citet{cinque2005deriving} under Merlo's (2015) featurization when predicting \textbf{genera counts}.}
+\end{table}
+
+
+
+
 \end{document}
+
 
