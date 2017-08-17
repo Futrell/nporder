@@ -38,30 +38,30 @@ overrepresentation of some orders that may arise from areal effects.
     \hline
     Order & Adjusted frequency & Genera count \\
     \hline
-    $DNAn$  & 21.67 & 57 \\
-    $nAND$  & 18.49 & 84 \\
-    $DnAN$  & 16.65 & 38 \\
-    $DNnA$  & 13.52 & 31 \\
-    $NnAD$  &  9.00 & 28 \\
-    $nADN$  &  7.94 & 19 \\
-    $nDAN$  &  7.00 & 11 \\
-    $DnNA$  &  7.00 & 10 \\
-    $nNAD$  &  6.65 &  9 \\
-    $NAnD$  &  4.00 &  5 \\
-    $nDNA$  &  3.73 &  5 \\
-    $DAnN$  &  3.40 &  8 \\
-    $AnND$  &  3.00 &  3 \\
-    $NnDA$  &  3.00 &  3 \\
-    $NDAn$  &  3.00 &  3 \\
-    $AnDN$  &  2.00 &  3 \\
-    $DANn$  &  2.00 &  2 \\
-    $nNDA$  &  1.00 &  1 \\
-    $NADn$  &  0.00 &  0 \\
-    $NDnA$  &  0.00 &  0 \\
-    $ADnN$  &  0.00 &  0 \\
-    $ADNn$  &  0.00 &  0 \\
-    $ANDn$  &  0.00 &  0 \\
-    $ANnD$  &  0.00 &  0 \\
+    nAND &               43.50 &    84 \\
+    DNAn &               36.62 &    57 \\
+    DnAN &               28.34 &    38 \\
+    DNnA &               21.18 &    31 \\
+    NnAD &               15.33 &    28 \\
+    nADN &               14.78 &    19 \\
+    nDAN &                9.00 &    11 \\
+    nNAD &                9.00 &     9 \\
+    DnNA &                8.77 &    10 \\
+    DAnN &                6.11 &     8 \\
+    nDNA &                4.67 &     5 \\
+    NAnD &                4.00 &     5 \\
+    AnND &                3.00 &     3 \\
+    NnDA &                3.00 &     3 \\
+    NDAn &                3.00 &     3 \\
+    AnDN &                2.49 &     3 \\
+    DANn &                2.00 &     2 \\
+    nNDA &                1.00 &     1 \\
+    NADn &                0.00 &     0 \\
+    NDnA &                0.00 &     0 \\
+    ADnN &                0.00 &     0 \\
+    ADNn &                0.00 &     0 \\
+    ANDn &                0.00 &     0 \\
+    ANnD &                0.00 &     0 \\
     \hline
   \end{tabular}
   \caption{NP orders and their adjusted frequencies across languages and their counts across genera, as given in Dryer (in prep).}
@@ -295,11 +295,11 @@ As a summary of how this works: \citet{merlo2015predicting} first discretizes th
   P(\text{features}|\text{class}) &= \prod_{f_i \in \text{features}} P(f_i | \text{class}),
 \end{align*}
 where $f_i$ is the value of the $i$th feature in the featurization scheme under consideration; our $f_i$ here are Merlo's $a_i$ in her Equations 1--4, p. 334. A word order is assigned to the frequency class that maximizes the probability $P(\text{class}|\text{features})$ above for that word order's features.
-Note that technically these ``features'' are attribute-value pairs, such as $\texttt{Symmetry1=T}$ for the Dryer model or $\texttt{Partial=whose-pp}$ for the Cinque model.
+Technically these ``features'' are attribute-value pairs, such as $\texttt{Symmetry1=T}$ for the Dryer model or $\texttt{Partial=whose-pp}$ for the Cinque model.
 The WAODE model is a bit more complex than the Naive Bayes model but is fundamentally similar.
 
 These models are trained under two approaches: type-based, where training data consists of language types and their features and frequencies, and token-based, where the frequent language types are repeated multiple times in the training data and the language types with frequency zero appear with frequency zero.
-Note that in the token-based approach, the model is not penalized for miscategorizing language types with frequency None, because these do not appear in the training data.
+In the token-based approach, the model is not penalized for miscategorizing language types with frequency None, because these do not appear in the training data.
 
 Our work differs from Merlo's approach on two points:
 \begin{itemize}
@@ -366,11 +366,11 @@ Table~\ref{tab:af-likelihoods} shows log likelihoods for models predicting adjus
     \hline
     Model & Log likelihood & d.f. \\
     \hline
-    Dryer (in prep) & -46.6 & 6 \\
-    \citet{cysouw2010dealing} & -60.1 & 5 \\
-    \citet{cinque2005deriving} (our features) & -44.2 & 8 \\
+    Dryer (in prep) & -54.3 & 6 \\
+    \citet{cysouw2010dealing} & -77.2 & 5 \\
+    \citet{cinque2005deriving} (our features) & -53.0 & 8 \\
     %\citet{cinque2005deriving} (tied markedness) & -44.6 & 5 \\
-    \citet{cinque2005deriving} (Merlo's features) & -46.0 & 8\\
+    \citet{cinque2005deriving} (Merlo's features) & -56.5 & 8\\
     \hline
   \end{tabular}
   \caption{Log likelihoods of \emph{adjusted frequency} data under various models, and the degrees of freedom (d.f.) of those models.}
@@ -417,7 +417,7 @@ The figure also highlights why the Dryer model underpredicts the frequency of $D
 \begin{figure}[ht!]
   \centering
   \includegraphics[scale=.7]{cinque_regression_af.pdf}
-  \cprotect\caption{Feature weights from the \citet{cinque2005deriving} model when predicting adjusted frequency (first column). Note that the feature \verb+whose_pic_move+ comes out to have a (non-significant) positive weight.}
+  \cprotect\caption{Feature weights from the \citet{cinque2005deriving} model when predicting adjusted frequency (first column).}
   \label{fig:cinque-model}
 \end{figure}
 
@@ -481,7 +481,7 @@ Figures~\ref{fig:dryer-model-genera} and \ref{fig:cinque-model-genera} show the 
 \begin{figure}[ht!]
   \centering
   \includegraphics[scale=.7]{cinque_regression_genera.pdf}
-  \cprotect\caption{Feature weights from the \citet{cinque2005deriving} model when predicting genera counts (first column). Note that the feature \verb+total_move+ comes out to have a (non-significant) positive weight.}
+  \cprotect\caption{Feature weights from the \citet{cinque2005deriving} model when predicting genera counts (first column). The feature \verb+total_move+ comes out to have a (non-significant) positive weight.}
   \label{fig:cinque-model-genera}
 \end{figure}
 
@@ -507,12 +507,12 @@ This work was supported by NSF DDRI grant \#1551543 to R.F.
     \hline
     Feature & Weight & Std. Error & $p$ \\
     \hline
-    (Bias) &  3.2267  &   0.1615 &  $\lt$ .001 \\
-    icon1  & -1.2544  &   0.2300 &  $\lt$ .001 \\
-    icon2  & -0.9911 &      0.2515 &  $\lt$ .001 \\
-    asym  &  -1.5542 &      0.5004 &  .002 \\
-    harmony &     -0.8322   &  0.1832 & $\lt$ .001 \\
-    nadj    &     -0.5687  &   0.2063 & .005    \\
+    (Bias) &  3.9815  &   0.1175 &  $\lt$ .001 \\
+    icon1  & -1.5382  &   0.1910 &  $\lt$ .001 \\
+    icon2  & -1.3726 &      0.2177 &  $\lt$ .001 \\
+    asym  &  -1.7200 &      0.4846 &  $\lt$ .001 \\
+    harmony &     -1.0936   &  0.1436 & $\lt$ .001 \\
+    nadj    &     -0.7480  &   0.1641 & .005    \\
     \hline
   \end{tabular}
   \caption{Feature weights for the model of Dryer (in prep) when predicting \textbf{adjusted frequency}.}
@@ -524,11 +524,11 @@ This work was supported by NSF DDRI grant \#1551543 to R.F.
     \hline
     Feature & Weight & Std. Error & $p$ \\
     \hline
-    (Bias)      &  3.1103 &     0.1575 &  $\lt$ .001 \\
-    na\_adjacency &  -1.0247 &     0.2228 & $\lt$ .001 \\
-    n\_edge      &  -0.4047 &     0.1783 &   .023 \\
-    d\_edge      &  -1.0301 &     0.1907 & $\lt$ .001 \\
-    na\_order    &  -0.9039 &     0.1956 & $\lt$ .001 \\
+    (Bias)      &  3.8649 &     0.1165 &  $\lt$ .001 \\
+    na\_adjacency &  -1.3835 &     0.1917 & $\lt$ .001 \\
+    n\_edge      &  -0.6402 &     0.1415 & $\lt$ .001 \\
+    d\_edge      &  -1.1876 &     0.1561 & $\lt$ .001 \\
+    na\_order    &  -1.1096 &     0.1584 & $\lt$ .001 \\
     \hline
   \end{tabular}
   \caption{Feature weights for the model of \citet{cysouw2010dealing} when predicting \textbf{adjusted frequency}.}
@@ -540,14 +540,14 @@ This work was supported by NSF DDRI grant \#1551543 to R.F.
     \hline
     Feature & Weight & Std. Error & $p$ \\
     \hline
-    (Bias)              &  3.09104 &    0.21320 &  $\lt$ .001 \\
-    AlternativeMergeOrder & -3.19640  &  0.0780 & $\lt$ .001 \\
-    whose\_pic\_move       &  0.00606 &    0.32178 & .985 \\
-    np\_move\_no\_pp       &  -0.93932 &    0.30375 & .002 \\
-    pic\_of\_who\_move     &  -1.19724 &    0.34320 & $\lt$ .001 \\
-    partial\_move        &  -0.33020 &    0.40249 & .412 \\
-    np\_extraction       &  -0.89013 &    0.43505 & .041 \\
-    total\_move          &  -0.26106 &    0.46741 & .576 \\
+    (Bias)              &  3.61092 &    0.16440 &  $\lt$ .001 \\
+    AlternativeMergeOrder & -3.71628  &  0.37167 & $\lt$ .001 \\
+    whose\_pic\_move       &  -0.06587 &  0.26465 & .803 \\
+    np\_move\_no\_pp       &  -1.39843 &  0.23706 & $\lt$ .001 \\
+    pic\_of\_who\_move     &  -1.33916 &  0.28958 & $\lt$ .001 \\
+    partial\_move        &  -0.30165 &    0.32682 & .356 \\
+    np\_extraction       &  -1.52919 &    0.36381 & $\lt$ .001 \\
+    total\_move          &  0.18137 &    0.35649 & .611 \\
     \hline
   \end{tabular}
   \caption{Feature weights for the model of \citet{cinque2005deriving} under our featurization when predicting \textbf{adjusted frequency}.}
@@ -559,14 +559,14 @@ This work was supported by NSF DDRI grant \#1551543 to R.F.
     \hline
     Feature & Weight & Std. Error & $p$ \\
     \hline
-    (Bias)                    &  2.84847 &    0.19011 &  $\lt$ .001 \\
-    AlternativeMergeOrder & -2.97033 &   0.5470 & $\lt$ .001 \\
-    partial\_np                     &  -0.90396 &    0.27128 & $\lt$ .001 \\
-    partial\_of-who-pp              &  -1.76430 &    0.43659 & $\lt$ .001  \\
-    partial\_whose-pp                &  0.03608 &    0.21671 & .868 \\
-    complete\_np                    &  -1.09933 &    0.25745 & $\lt$ .001 \\
-    complete\_of-who-pp             &  -1.03312 &    0.28977 & $\lt$ .001 \\
-    complete\_whose-pp               &  0.02867 &    0.25442 & .910 \\
+    (Bias)                    &  3.39905 &    0.14848 &  $\lt$ .001 \\
+    AlternativeMergeOrder & -3.51612 &   0.37858 & $\lt$ .001 \\
+    partial\_np                     &  -1.35184 &    0.23373 & $\lt$ .001 \\
+    partial\_of-who-pp              &  -2.05580 &    0.35159 & $\lt$ .001  \\
+    partial\_whose-pp                &  -0.00645 &   0.17115 & .970 \\
+    complete\_np                    &  -1.17525 &    0.20835 & $\lt$ .001 \\
+    complete\_of-who-pp             &  -1.16650 &    0.24160 & $\lt$ .001 \\
+    complete\_whose-pp               &  0.29933 &    0.19247 & .120 \\
     \hline
   \end{tabular}
   \caption{Feature weights for the model of \citet{cinque2005deriving} under Merlo's (2015) featurization when predicting \textbf{adjusted frequency}.}
