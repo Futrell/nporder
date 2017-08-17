@@ -405,7 +405,7 @@ The magnitude of the discrepancy corresponds to how much a model is penalized fo
 
 As another way to analyze the results, we show in Figures~\ref{fig:dryer-model} and \ref{fig:cinque-model} the weights assigned to features for different word unders under the Dryer model and the Cinque model.
 Here we see that Cinque's model works by strongly penalizing low-frequency orders using the \alternativeMergeOrder feature, and then the differences among the remaining orders are handled by the rest of the features.
-The figure also highlights why the Dryer model underpredicts the frequency of $DNAn$ orders: these orders are positive for the \texttt{nadj} feature, which must have a negative weight in order to penalize various low-frequency orders.
+%The figure also highlights why the Dryer model underpredicts the frequency of $DNAn$ orders: these orders are positive for the \texttt{nadj} feature, which must have a negative weight in order to penalize various low-frequency orders.
 
 \begin{figure}[ht!]
   \centering
